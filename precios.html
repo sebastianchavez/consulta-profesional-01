@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Precios · MediConsult</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: { primary: '#d4a017', 'primary-light': '#f4c430', 'background-dark': '#0f172a', 'background-card': '#1e293b' },
+          fontFamily: { display: ['Playfair Display'], sans: ['Inter'] }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="precios" class="bg-background-dark text-gray-200 font-sans">
+  <div id="appHeader"></div>
+
+  <main>
+    <section class="py-20 border-b border-primary/10">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="text-primary uppercase tracking-[0.3em] text-xs mb-3 font-medium">Inversión en tu salud</p>
+        <h1 class="text-5xl md:text-6xl font-bold text-white mb-6" style="font-family: 'Playfair Display', serif;">Precios de Consultas</h1>
+        <p class="text-gray-300 text-lg max-w-2xl mx-auto">Consulta nuestra lista de precios por consulta médica. Todos los precios incluyen IGV y son por sesión.</p>
+      </div>
+    </section>
+
+    <section class="py-12 border-b border-primary/10 sticky top-20 bg-background-dark/95 backdrop-blur z-30">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap justify-center gap-3" id="filters">
+          <button data-filter="todos" class="filter-btn px-6 py-2 rounded-full text-sm font-semibold border-2 border-primary bg-primary text-background-dark transition-all">Todas</button>
+          <button data-filter="general" class="filter-btn px-6 py-2 rounded-full text-sm font-semibold border-2 border-primary/30 text-gray-300 hover:border-primary transition-all">General</button>
+          <button data-filter="especialidad" class="filter-btn px-6 py-2 rounded-full text-sm font-semibold border-2 border-primary/30 text-gray-300 hover:border-primary transition-all">Especialidades</button>
+          <button data-filter="bienestar" class="filter-btn px-6 py-2 rounded-full text-sm font-semibold border-2 border-primary/30 text-gray-300 hover:border-primary transition-all">Bienestar</button>
+          <button data-filter="prevencion" class="filter-btn px-6 py-2 rounded-full text-sm font-semibold border-2 border-primary/30 text-gray-300 hover:border-primary transition-all">Prevención</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto bg-background-card border border-gray-800 rounded-2xl overflow-hidden">
+          <div class="divide-y divide-gray-800" id="preciosList"></div>
+        </div>
+
+        <div class="mt-12 max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-background-card border border-gray-800 rounded-xl p-5">
+            <svg class="h-7 w-7 text-primary mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+            <h4 class="text-white font-semibold mb-1">Precios transparentes</h4>
+            <p class="text-gray-400 text-sm">Sin sorpresas ni cargos ocultos</p>
+          </div>
+          <div class="bg-background-card border border-gray-800 rounded-xl p-5">
+            <svg class="h-7 w-7 text-primary mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+            <h4 class="text-white font-semibold mb-1">Múltiples medios de pago</h4>
+            <p class="text-gray-400 text-sm">Tarjeta, Yape, Plin o efectivo</p>
+          </div>
+          <div class="bg-background-card border border-gray-800 rounded-xl p-5">
+            <svg class="h-7 w-7 text-primary mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.535 2.121L7.343 9.757a4 4 0 115.657 5.657l-2.121 2.121m2.121-5.657a4 4 0 11-5.657-5.657l2.121-2.121"></path></svg>
+            <h4 class="text-white font-semibold mb-1">Acepta tu seguro</h4>
+            <p class="text-gray-400 text-sm">Convenios con aseguradoras principales</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="appFooter"></div>
+  <script src="js/app.js"></script>
+  <script>
+    function pageInit() {
+      const list = document.getElementById('preciosList');
+      const filters = document.querySelectorAll('.filter-btn');
+
+      function render(filter) {
+        const data = filter === 'todos' ? SERVICIOS : SERVICIOS.filter(s => s.categoria === filter);
+        list.innerHTML = data.map(s => `
+          <div class="flex items-center justify-between p-5 hover:bg-primary/5 transition-colors">
+            <div class="flex items-center gap-4">
+              <img src="${s.imagen}" alt="${s.nombre}" class="h-14 w-14 rounded-lg" />
+              <div>
+                <h4 class="text-white font-semibold">${s.nombre}</h4>
+                <p class="text-gray-400 text-sm">${s.duracion} min · ${s.categoria}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <span class="text-primary text-xl font-bold" style="font-family: 'Playfair Display', serif;">S/ ${s.precio}</span>
+              <a href="reserva.html?servicio=${s.id}" class="btn-primary text-xs px-4 py-2">Reservar</a>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      filters.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filters.forEach(b => { b.classList.remove('bg-primary', 'text-background-dark'); b.classList.add('text-gray-300'); });
+          btn.classList.add('bg-primary', 'text-background-dark');
+          btn.classList.remove('text-gray-300');
+          render(btn.dataset.filter);
+        });
+      });
+
+      render('todos');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galería · MediConsult</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: { primary: '#d4a017', 'primary-light': '#f4c430', 'background-dark': '#0f172a', 'background-card': '#1e293b' },
+          fontFamily: { display: ['Playfair Display'], sans: ['Inter'] }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="galeria" class="bg-background-dark text-gray-200 font-sans">
+  <div id="appHeader"></div>
+
+  <main>
+    <section class="py-20 border-b border-primary/10">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="text-primary uppercase tracking-[0.3em] text-xs mb-3 font-medium">Nuestras instalaciones</p>
+        <h1 class="text-5xl md:text-6xl font-bold text-white mb-6" style="font-family: 'Playfair Display', serif;">Galería del consultorio</h1>
+        <p class="text-gray-300 text-lg max-w-2xl mx-auto">Conoce nuestras modernas instalaciones, diseñadas para brindarte comodidad y privacidad durante tu atención.</p>
+      </div>
+    </section>
+
+    <section class="py-10 border-b border-primary/10 sticky top-20 bg-background-dark/95 backdrop-blur z-30">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap justify-center gap-3" id="filters">
+          <button data-filter="todos" class="filter-btn px-6 py-2 rounded-full text-sm font-semibold border-2 border-primary bg-primary text-background-dark transition-all">Todos</button>
+          <button data-filter="consultorios" class="filter-btn px-6 py-2 rounded-full text-sm font-semibold border-2 border-primary/30 text-gray-300 hover:border-primary transition-all">Consultorios</button>
+          <button data-filter="recepcion" class="filter-btn px-6 py-2 rounded-full text-sm font-semibold border-2 border-primary/30 text-gray-300 hover:border-primary transition-all">Recepción</button>
+          <button data-filter="equipamiento" class="filter-btn px-6 py-2 rounded-full text-sm font-semibold border-2 border-primary/30 text-gray-300 hover:border-primary transition-all">Equipamiento</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div id="galeriaGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="appFooter"></div>
+  <script src="js/app.js"></script>
+  <script>
+    const GALERIA = [
+      { cat: 'consultorios', img: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&q=80' },
+      { cat: 'consultorios', img: 'https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=600&q=80' },
+      { cat: 'consultorios', img: 'https://images.unsplash.com/photo-1666214280557-f1b5022eb634?w=600&q=80' },
+      { cat: 'consultorios', img: 'https://images.unsplash.com/photo-1666214280391-8ff5bd3c0bf0?w=600&q=80' },
+      { cat: 'recepcion', img: 'https://images.unsplash.com/photo-1638202993928-7267aad84c31?w=600&q=80' },
+      { cat: 'recepcion', img: 'https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?w=600&q=80' },
+      { cat: 'recepcion', img: 'https://images.unsplash.com/photo-1551601651-bc60f254d532?w=600&q=80' },
+      { cat: 'recepcion', img: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80' },
+      { cat: 'equipamiento', img: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=600&q=80' },
+      { cat: 'equipamiento', img: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=600&q=80' },
+      { cat: 'equipamiento', img: 'https://images.unsplash.com/photo-1581595220892-b0739db3ba8c?w=600&q=80' },
+      { cat: 'equipamiento', img: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=600&q=80' }
+    ];
+
+    function pageInit() {
+      const grid = document.getElementById('galeriaGrid');
+      const filters = document.querySelectorAll('.filter-btn');
+
+      function render(filter) {
+        const list = filter === 'todos' ? GALERIA : GALERIA.filter(g => g.cat === filter);
+        grid.innerHTML = list.map((g, i) => `
+          <div class="galeria-item aspect-square ${i % 5 === 0 ? 'md:col-span-2 md:row-span-2' : ''}" data-cat="${g.cat}">
+            <img src="${g.img}" alt="" class="w-full h-full object-cover" loading="lazy" />
+          </div>
+        `).join('');
+        grid.querySelectorAll('.galeria-item').forEach(item => {
+          item.addEventListener('click', () => openLightbox(item.querySelector('img').src));
+        });
+      }
+
+      function openLightbox(src) {
+        const lb = document.createElement('div');
+        lb.className = 'lightbox';
+        lb.innerHTML = `<img src="${src}" alt="" /><button class="absolute top-6 right-6 text-white text-3xl hover:text-primary transition-colors">&times;</button>`;
+        lb.addEventListener('click', () => lb.remove());
+        document.body.appendChild(lb);
+      }
+
+      filters.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filters.forEach(b => { b.classList.remove('bg-primary', 'text-background-dark'); b.classList.add('text-gray-300'); });
+          btn.classList.add('bg-primary', 'text-background-dark');
+          btn.classList.remove('text-gray-300');
+          render(btn.dataset.filter);
+        });
+      });
+
+      render('todos');
+    }
+  </script>
+</body>
+</html>
